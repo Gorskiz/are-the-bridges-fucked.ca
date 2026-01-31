@@ -202,6 +202,11 @@ export function BridgeDetail({ bridge, trafficData, onBack }: BridgeDetailProps)
                         </div>
                     </div>
                 </div>
+                <div className="bridge-detail__camera-credit">
+                    <small>
+                        Camera feeds courtesy of <a href="https://halifaxharbourbridges.ca/" target="_blank" rel="noopener noreferrer">Halifax Harbour Bridges</a>
+                    </small>
+                </div>
             </section>
 
             {/* Footer */}
@@ -213,7 +218,7 @@ export function BridgeDetail({ bridge, trafficData, onBack }: BridgeDetailProps)
                     })}
                 </p>
                 <p className="bridge-detail__disclaimer">
-                    Data sourced from halifaxharbourbridges.ca
+                    Data sourced from <a href="https://halifaxharbourbridges.ca/" target="_blank" rel="noopener noreferrer">halifaxharbourbridges.ca</a>
                 </p>
                 <img
                     src="/arethebridgesfuckedlogo.webp"

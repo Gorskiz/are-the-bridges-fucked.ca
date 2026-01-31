@@ -309,6 +309,35 @@
     font-size: 0.75rem;
 }
 
+.bridge-detail__disclaimer a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s;
+}
+
+.bridge-detail__disclaimer a:hover {
+    color: var(--text-primary);
+}
+
+.bridge-detail__camera-credit {
+    margin-top: var(--space-sm);
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.bridge-detail__camera-credit a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s;
+}
+
+.bridge-detail__camera-credit a:hover {
+    color: var(--text-primary);
+}
+
 /* Tablet and up */
 @media (min-width: 640px) {
     .bridge-detail__logo {

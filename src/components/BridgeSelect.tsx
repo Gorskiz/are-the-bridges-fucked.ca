@@ -118,7 +118,7 @@ export function BridgeSelect({ trafficData, weatherData, onSelectBridge }: Bridg
                     })}
                 </p>
                 <p className="bridge-select__source">
-                    Data from halifaxharbourbridges.ca
+                    Data from <a href="https://halifaxharbourbridges.ca/" target="_blank" rel="noopener noreferrer">halifaxharbourbridges.ca</a>
                 </p>
                 <img
                     src="/arethebridgesfuckedlogo.webp"
