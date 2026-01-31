@@ -172,30 +172,31 @@ function parseTrafficHtml(html: string): TrafficData | null {
 
 /**
  * Fetch traffic data from Halifax Harbour Bridges website
+ * Uses local /api/traffic endpoint (proxied to Cloudflare Worker or Vite Dev Server)
  */
 export async function fetchTrafficData(): Promise<TrafficData | null> {
-    const targetUrl = 'https://halifaxharbourbridges.ca/';
+    try {
+        console.log('Fetching traffic data from /api/traffic');
+        const response = await fetch('/api/traffic');
 
-    for (const proxy of CORS_PROXIES) {
-        try {
-            const response = await fetch(`${proxy}${encodeURIComponent(targetUrl)}`);
-            if (!response.ok) continue;
-
-            const html = await response.text();
-            const data = parseTrafficHtml(html);
-
-            if (data) {
-                return data;
-            }
-        } catch (error) {
-            console.warn(`CORS proxy ${proxy} failed:`, error);
-            continue;
+        if (!response.ok) {
+            throw new Error(`API returned ${response.status}`);
         }
+
+        const html = await response.text();
+        const data = parseTrafficHtml(html);
+
+        if (data) {
+            console.log('Successfully fetched and parsed traffic data');
+            return data;
+        }
+
+        console.warn('Failed to parse traffic data from HTML');
+    } catch (error) {
+        console.error('Error fetching traffic data:', error);
     }
 
-    // If all proxies fail, return mock data for development
-    console.warn('All CORS proxies failed, using fallback data');
-    return getFallbackTrafficData();
+    return null;
 }
 
 /**

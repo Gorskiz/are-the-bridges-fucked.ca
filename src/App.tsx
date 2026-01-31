@@ -2,16 +2,20 @@
  * Are The Bridges Fucked .Ca
  * Main Application Component
  * 
- * Now with weather integration! ⛈️🌨️
+ * Now with weather integration and Environment Canada alerts! ⛈️🌨️🚨
  */
 
 import { useState } from 'react';
 import { useTrafficData } from './hooks/useTrafficData';
 import { useWeatherData } from './hooks/useWeatherData';
+import { useWeatherAlerts } from './hooks/useWeatherAlerts';
 import { BridgeSelect } from './components/BridgeSelect';
 import { BridgeDetail } from './components/BridgeDetail';
 import { WeatherBanner } from './components/WeatherWidget';
 import { WeatherOverlay } from './components/WeatherOverlay';
+import { WeatherAlertBanner, WeatherAlertList } from './components/WeatherAlert';
+import { alertTypeToCondition } from './services/alertsApi';
+import type { WeatherCondition, WeatherSeverity } from './types/weather';
 import './App.css';
 
 type View = 'select' | 'detail';
@@ -20,6 +24,7 @@ type SelectedBridge = 'macdonald' | 'mackay' | null;
 function App() {
   const { trafficData, isLoading, error, refetch } = useTrafficData();
   const { weatherData } = useWeatherData();
+  const { activeAlerts, upcomingAlerts, mostSevereAlert } = useWeatherAlerts();
   const [view, setView] = useState<View>('select');
   const [selectedBridge, setSelectedBridge] = useState<SelectedBridge>(null);
 
@@ -33,16 +38,46 @@ function App() {
     setSelectedBridge(null);
   };
 
+  // Determine overlay condition - prioritize active alerts over current weather
+  const getOverlayCondition = (): { condition: WeatherCondition; severity: WeatherSeverity } | null => {
+    // If there's an active severe alert, use its condition for the overlay
+    if (mostSevereAlert && mostSevereAlert.isActive) {
+      const alertCondition = alertTypeToCondition(mostSevereAlert.type);
+      if (alertCondition) {
+        const alertSeverity: WeatherSeverity =
+          mostSevereAlert.severity === 'extreme' ? 'apocalyptic' :
+            mostSevereAlert.severity === 'severe' ? 'fucked' :
+              mostSevereAlert.severity === 'moderate' ? 'rough' : 'meh';
+        return {
+          condition: alertCondition as WeatherCondition,
+          severity: alertSeverity
+        };
+      }
+    }
+
+    // Fall back to current weather data
+    if (weatherData) {
+      return {
+        condition: weatherData.condition,
+        severity: weatherData.severity
+      };
+    }
+
+    return null;
+  };
+
+  const overlayData = getOverlayCondition();
+
   // Loading state
   if (isLoading && !trafficData) {
     return (
       <>
         <div className="app-background" />
-        {weatherData && (
+        {overlayData && (
           <WeatherOverlay
-            condition={weatherData.condition}
-            severity={weatherData.severity}
-            isDay={weatherData.isDay}
+            condition={overlayData.condition}
+            severity={overlayData.severity}
+            isDay={weatherData?.isDay ?? true}
           />
         )}
         <div className="loading-container">
@@ -58,11 +93,11 @@ function App() {
     return (
       <>
         <div className="app-background" />
-        {weatherData && (
+        {overlayData && (
           <WeatherOverlay
-            condition={weatherData.condition}
-            severity={weatherData.severity}
-            isDay={weatherData.isDay}
+            condition={overlayData.condition}
+            severity={overlayData.severity}
+            isDay={weatherData?.isDay ?? true}
           />
         )}
         <div className="error-container">
@@ -85,11 +120,11 @@ function App() {
     return (
       <>
         <div className="app-background" />
-        {weatherData && (
+        {overlayData && (
           <WeatherOverlay
-            condition={weatherData.condition}
-            severity={weatherData.severity}
-            isDay={weatherData.isDay}
+            condition={overlayData.condition}
+            severity={overlayData.severity}
+            isDay={weatherData?.isDay ?? true}
           />
         )}
         <div className="error-container">
@@ -107,14 +142,27 @@ function App() {
   return (
     <>
       <div className="app-background" />
-      {weatherData && (
+
+      {/* Weather overlay - uses alert condition if active, otherwise current weather */}
+      {overlayData && (
         <WeatherOverlay
-          condition={weatherData.condition}
-          severity={weatherData.severity}
-          isDay={weatherData.isDay}
+          condition={overlayData.condition}
+          severity={overlayData.severity}
+          isDay={weatherData?.isDay ?? true}
         />
       )}
-      {weatherData && <WeatherBanner weather={weatherData} />}
+
+      {/* Active weather alert banner - prominent display */}
+      {mostSevereAlert && mostSevereAlert.isActive && (
+        <WeatherAlertBanner alert={mostSevereAlert} />
+      )}
+
+      {/* Weather condition banner (if no active alert) */}
+      {weatherData && !mostSevereAlert?.isActive && (
+        <WeatherBanner weather={weatherData} />
+      )}
+
+      {/* Main content */}
       {view === 'select' && (
         <BridgeSelect
           trafficData={trafficData}
@@ -122,11 +170,20 @@ function App() {
           onSelectBridge={handleSelectBridge}
         />
       )}
+
       {view === 'detail' && selectedBridge && (
         <BridgeDetail
           bridge={selectedBridge}
           trafficData={trafficData}
           onBack={handleBack}
+        />
+      )}
+
+      {/* Upcoming alerts list (shown at bottom when on select view) */}
+      {view === 'select' && (activeAlerts.length > 0 || upcomingAlerts.length > 0) && (
+        <WeatherAlertList
+          activeAlerts={activeAlerts.filter(a => a.id !== mostSevereAlert?.id)}
+          upcomingAlerts={upcomingAlerts}
         />
       )}
     </>
