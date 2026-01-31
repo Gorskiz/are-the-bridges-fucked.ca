@@ -4,10 +4,13 @@
  */
 
 import type { TrafficData } from '../types/traffic';
+import type { WeatherData } from '../types/weather';
+import { WeatherWidget } from './WeatherWidget';
 import './BridgeSelect.css';
 
 interface BridgeSelectProps {
     trafficData: TrafficData;
+    weatherData: WeatherData | null;
     onSelectBridge: (bridge: 'macdonald' | 'mackay') => void;
 }
 
@@ -31,7 +34,7 @@ function getBridgeStatus(bridge: 'macdonald' | 'mackay', data: TrafficData): {
     return { isFucked: false, worstLevel: 'light' };
 }
 
-export function BridgeSelect({ trafficData, onSelectBridge }: BridgeSelectProps) {
+export function BridgeSelect({ trafficData, weatherData, onSelectBridge }: BridgeSelectProps) {
     const macdonaldStatus = getBridgeStatus('macdonald', trafficData);
     const mackayStatus = getBridgeStatus('mackay', trafficData);
 
@@ -46,6 +49,12 @@ export function BridgeSelect({ trafficData, onSelectBridge }: BridgeSelectProps)
         <div className="bridge-select">
             {/* Header */}
             <header className="bridge-select__header">
+                {/* Weather Widget in top-right */}
+                {weatherData && (
+                    <div className="bridge-select__weather">
+                        <WeatherWidget weather={weatherData} compact />
+                    </div>
+                )}
                 <h1 className="bridge-select__title">
                     Are The Bridges<br />
                     <span className="bridge-select__title-accent">Fucked?</span>
@@ -53,6 +62,12 @@ export function BridgeSelect({ trafficData, onSelectBridge }: BridgeSelectProps)
                 <p className="bridge-select__subtitle">
                     Halifax Harbour Traffic Status
                 </p>
+                {/* Weather saying when conditions are rough */}
+                {weatherData && (weatherData.severity === 'rough' || weatherData.severity === 'fucked' || weatherData.severity === 'apocalyptic') && (
+                    <p className="bridge-select__weather-saying">
+                        {weatherData.maritimerSaying}
+                    </p>
+                )}
             </header>
 
             {/* Bridge Cards */}

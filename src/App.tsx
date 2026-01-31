@@ -1,12 +1,17 @@
 /**
  * Are The Bridges Fucked .Ca
  * Main Application Component
+ * 
+ * Now with weather integration! ⛈️🌨️
  */
 
 import { useState } from 'react';
 import { useTrafficData } from './hooks/useTrafficData';
+import { useWeatherData } from './hooks/useWeatherData';
 import { BridgeSelect } from './components/BridgeSelect';
 import { BridgeDetail } from './components/BridgeDetail';
+import { WeatherBanner } from './components/WeatherWidget';
+import { WeatherOverlay } from './components/WeatherOverlay';
 import './App.css';
 
 type View = 'select' | 'detail';
@@ -14,6 +19,7 @@ type SelectedBridge = 'macdonald' | 'mackay' | null;
 
 function App() {
   const { trafficData, isLoading, error, refetch } = useTrafficData();
+  const { weatherData } = useWeatherData();
   const [view, setView] = useState<View>('select');
   const [selectedBridge, setSelectedBridge] = useState<SelectedBridge>(null);
 
@@ -32,6 +38,13 @@ function App() {
     return (
       <>
         <div className="app-background" />
+        {weatherData && (
+          <WeatherOverlay
+            condition={weatherData.condition}
+            severity={weatherData.severity}
+            isDay={weatherData.isDay}
+          />
+        )}
         <div className="loading-container">
           <div className="loading-spinner" />
           <p className="loading-text">Checking bridge status...</p>
@@ -45,6 +58,13 @@ function App() {
     return (
       <>
         <div className="app-background" />
+        {weatherData && (
+          <WeatherOverlay
+            condition={weatherData.condition}
+            severity={weatherData.severity}
+            isDay={weatherData.isDay}
+          />
+        )}
         <div className="error-container">
           <span className="error-icon">🌉</span>
           <h1>Oops!</h1>
@@ -65,6 +85,13 @@ function App() {
     return (
       <>
         <div className="app-background" />
+        {weatherData && (
+          <WeatherOverlay
+            condition={weatherData.condition}
+            severity={weatherData.severity}
+            isDay={weatherData.isDay}
+          />
+        )}
         <div className="error-container">
           <span className="error-icon">🤷</span>
           <h1>No Data</h1>
@@ -80,9 +107,18 @@ function App() {
   return (
     <>
       <div className="app-background" />
+      {weatherData && (
+        <WeatherOverlay
+          condition={weatherData.condition}
+          severity={weatherData.severity}
+          isDay={weatherData.isDay}
+        />
+      )}
+      {weatherData && <WeatherBanner weather={weatherData} />}
       {view === 'select' && (
         <BridgeSelect
           trafficData={trafficData}
+          weatherData={weatherData}
           onSelectBridge={handleSelectBridge}
         />
       )}

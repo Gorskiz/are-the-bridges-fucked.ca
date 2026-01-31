@@ -1,0 +1,449 @@
+/* ===============================================
+   Weather Widget Styles
+   Matches the existing Nova Scotia blue theme
+   =============================================== */
+
+/* Compact Widget (Header) */
+.weather-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.weather-widget--compact {
+    flex-direction: row;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    gap: var(--space-sm);
+}
+
+.weather-widget__main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.weather-widget__emoji {
+    font-size: 1.5rem;
+}
+
+.weather-widget--compact .weather-widget__emoji {
+    font-size: 1.25rem;
+}
+
+.weather-widget__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.weather-widget__temp {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.weather-widget--compact .weather-widget__temp {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.weather-widget__condition {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.weather-widget__feels-like,
+.weather-widget__wind {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* Severity-based styling */
+.weather-widget--fine {
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.weather-widget--meh {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.weather-widget--rough {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.weather-widget--fucked {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+    animation: pulseWarning 2s ease-in-out infinite;
+}
+
+.weather-widget--apocalyptic {
+    border-color: rgba(168, 85, 247, 0.4);
+    background: rgba(168, 85, 247, 0.15);
+    animation: pulseApocalyptic 1.5s ease-in-out infinite;
+}
+
+/* ===============================================
+   Weather Banner (Alert Banner)
+   Shows when weather is rough/fucked
+   =============================================== */
+
+.weather-banner {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(245, 158, 11, 0.15);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+    animation: slideDown 0.3s ease;
+}
+
+.weather-banner--rough {
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.1) 50%, rgba(245, 158, 11, 0.15) 100%);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.weather-banner--fucked {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 50%, rgba(239, 68, 68, 0.2) 100%);
+    border-color: rgba(239, 68, 68, 0.4);
+    animation: slideDown 0.3s ease, bannerPulse 2s ease-in-out infinite;
+}
+
+.weather-banner--apocalyptic {
+    background: linear-gradient(90deg,
+            rgba(168, 85, 247, 0.25) 0%,
+            rgba(239, 68, 68, 0.2) 25%,
+            rgba(168, 85, 247, 0.25) 50%,
+            rgba(239, 68, 68, 0.2) 75%,
+            rgba(168, 85, 247, 0.25) 100%);
+    background-size: 200% 100%;
+    border-color: rgba(168, 85, 247, 0.5);
+    animation: slideDown 0.3s ease, apocalypticBanner 3s linear infinite;
+}
+
+.weather-banner__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.weather-banner__emoji {
+    font-size: 1.25rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.weather-banner--apocalyptic .weather-banner__emoji {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+.weather-banner__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.weather-banner__status {
+    font-size: 0.875rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+}
+
+.weather-banner--rough .weather-banner__status {
+    color: var(--status-moderate);
+}
+
+.weather-banner--fucked .weather-banner__status,
+.weather-banner--apocalyptic .weather-banner__status {
+    color: var(--status-bad);
+}
+
+.weather-banner__saying {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* ===============================================
+   Weather Card (Full Display)
+   =============================================== */
+
+.weather-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: fadeIn 0.5s ease;
+}
+
+.weather-card__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.weather-card__emoji {
+    font-size: 3rem;
+}
+
+.weather-card__title {
+    display: flex;
+    flex-direction: column;
+}
+
+.weather-card__temp {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.weather-card__condition {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.weather-card__status {
+    display: inline-flex;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-md);
+}
+
+.weather-card--fine .weather-card__status {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--status-good);
+}
+
+.weather-card--meh .weather-card__status {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+}
+
+.weather-card--rough .weather-card__status {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--status-moderate);
+}
+
+.weather-card--fucked .weather-card__status,
+.weather-card--apocalyptic .weather-card__status {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--status-bad);
+}
+
+.weather-card__status-text {
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.weather-card__saying {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    font-style: italic;
+    margin-bottom: var(--space-lg);
+    padding-left: var(--space-md);
+    border-left: 3px solid var(--bridge-green);
+}
+
+.weather-card--fucked .weather-card__saying,
+.weather-card--apocalyptic .weather-card__saying {
+    border-color: var(--status-bad);
+}
+
+.weather-card__details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+}
+
+.weather-card__detail {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+}
+
+.weather-card__detail-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.weather-card__detail-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Severity-based card styling */
+.weather-card--fine {
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.weather-card--rough {
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.weather-card--fucked {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);
+}
+
+.weather-card--apocalyptic {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
+}
+
+/* ===============================================
+   Animations
+   =============================================== */
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseWarning {
+
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    }
+}
+
+@keyframes pulseApocalyptic {
+
+    0%,
+    100% {
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.5), 0 0 60px rgba(239, 68, 68, 0.3);
+    }
+}
+
+@keyframes bannerPulse {
+
+    0%,
+    100% {
+        background: linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 50%, rgba(239, 68, 68, 0.2) 100%);
+    }
+
+    50% {
+        background: linear-gradient(90deg, rgba(239, 68, 68, 0.25) 0%, rgba(239, 68, 68, 0.15) 50%, rgba(239, 68, 68, 0.25) 100%);
+    }
+}
+
+@keyframes apocalypticBanner {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: -200% center;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px) rotate(-5deg);
+    }
+
+    75% {
+        transform: translateX(3px) rotate(5deg);
+    }
+}
+
+/* ===============================================
+   Responsive Styles
+   =============================================== */
+
+@media (min-width: 640px) {
+    .weather-banner__content {
+        gap: var(--space-lg);
+    }
+
+    .weather-banner__status {
+        font-size: 1rem;
+    }
+
+    .weather-banner__saying {
+        font-size: 0.875rem;
+    }
+
+    .weather-card {
+        padding: var(--space-xl);
+    }
+
+    .weather-card__emoji {
+        font-size: 4rem;
+    }
+
+    .weather-card__temp {
+        font-size: 3.5rem;
+    }
+
+    .weather-card__details {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .weather-banner__emoji {
+        font-size: 1.5rem;
+    }
+
+    .weather-banner__status {
+        font-size: 1.125rem;
+    }
+}

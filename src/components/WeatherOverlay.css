@@ -1,0 +1,389 @@
+/* ===============================================
+   Weather Overlay Styles
+   Animated atmospheric effects
+   =============================================== */
+
+.weather-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.weather-overlay__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* ===============================================
+   Fog Effect
+   =============================================== */
+
+.weather-overlay__fog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(180deg,
+            rgba(200, 210, 220, 0.1) 0%,
+            rgba(180, 195, 210, 0.2) 30%,
+            rgba(160, 180, 200, 0.15) 60%,
+            rgba(180, 195, 210, 0.1) 100%);
+    animation: fogDrift 20s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes fogDrift {
+
+    0%,
+    100% {
+        transform: translateX(-5%) scale(1.1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translateX(5%) scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+/* ===============================================
+   Dramatic Overlay (Severe Weather)
+   =============================================== */
+
+.weather-overlay__dramatic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.weather-overlay--fucked .weather-overlay__dramatic {
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            rgba(239, 68, 68, 0.05) 50%,
+            rgba(239, 68, 68, 0.1) 100%);
+    animation: dramaticPulse 4s ease-in-out infinite;
+}
+
+.weather-overlay--apocalyptic .weather-overlay__dramatic {
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            rgba(168, 85, 247, 0.08) 40%,
+            rgba(239, 68, 68, 0.12) 100%);
+    animation: apocalypticPulse 2s ease-in-out infinite;
+}
+
+@keyframes dramaticPulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes apocalypticPulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        filter: hue-rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+        filter: hue-rotate(10deg);
+    }
+}
+
+/* ===============================================
+   BLIZZARD EFFECTS
+   Wind streaks + white-out atmosphere
+   =============================================== */
+
+.weather-overlay__blizzard-wind {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(100deg,
+            transparent 0%,
+            transparent 35%,
+            rgba(255, 255, 255, 0.12) 35%,
+            rgba(255, 255, 255, 0.22) 50%,
+            transparent 50%,
+            transparent 100%);
+    animation: blizzardWind 4s linear infinite;
+    z-index: 3;
+}
+
+.weather-overlay__blizzard-whiteout {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(230, 235, 245, 0.2) 50%,
+            rgba(210, 220, 235, 0.25) 100%);
+    animation: blizzardWhiteout 2.5s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes blizzardWind {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes blizzardWhiteout {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ===============================================
+   THUNDERSTORM EFFECTS
+   Dark atmosphere + lightning flashes
+   =============================================== */
+
+.weather-overlay__storm-atmosphere {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(80, 60, 120, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(60, 40, 100, 0.2) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(20, 15, 40, 0.4) 0%, rgba(15, 20, 35, 0.3) 50%, rgba(20, 15, 40, 0.35) 100%);
+    animation: stormAtmosphere 5s ease-in-out infinite;
+    z-index: 2;
+}
+
+.weather-overlay__lightning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0);
+    animation: lightningFlash 4s ease-in-out infinite;
+    z-index: 4;
+}
+
+@keyframes stormAtmosphere {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes lightningFlash {
+
+    0%,
+    100% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    /* First lightning strike */
+    20% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    21% {
+        background: rgba(200, 180, 255, 0.6);
+    }
+
+    22% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    23% {
+        background: rgba(200, 180, 255, 0.35);
+    }
+
+    24% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    /* Second lightning strike */
+    55% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    56% {
+        background: rgba(220, 200, 255, 0.7);
+    }
+
+    57% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    /* Third lightning strike */
+    85% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    86% {
+        background: rgba(180, 160, 255, 0.5);
+    }
+
+    87% {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    88% {
+        background: rgba(200, 180, 255, 0.3);
+    }
+
+    89% {
+        background: rgba(255, 255, 255, 0);
+    }
+}
+
+/* ===============================================
+   HURRICANE EFFECTS
+   Swirling chaos + intense darkness
+   =============================================== */
+
+.weather-overlay__hurricane-swirl {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg at 50% 50%,
+            rgba(50, 70, 100, 0.2) 0deg,
+            rgba(30, 50, 80, 0.25) 45deg,
+            rgba(40, 60, 90, 0.15) 90deg,
+            rgba(30, 50, 80, 0.22) 135deg,
+            rgba(50, 70, 100, 0.2) 180deg,
+            rgba(30, 50, 80, 0.25) 225deg,
+            rgba(40, 60, 90, 0.15) 270deg,
+            rgba(30, 50, 80, 0.22) 315deg,
+            rgba(50, 70, 100, 0.2) 360deg);
+    animation: hurricaneSwirl 12s linear infinite;
+    z-index: 2;
+}
+
+.weather-overlay__hurricane-darkness {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center,
+            transparent 5%,
+            rgba(10, 20, 35, 0.4) 40%,
+            rgba(5, 10, 20, 0.6) 100%);
+    animation: hurricanePulse 2s ease-in-out infinite;
+    z-index: 3;
+}
+
+@keyframes hurricaneSwirl {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes hurricanePulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ===============================================
+   Rain-specific effects (heavy rain overlay)
+   =============================================== */
+
+.weather-overlay--heavy_rain .weather-overlay__canvas,
+.weather-overlay--freezing_rain .weather-overlay__canvas {
+    filter: blur(0.3px);
+}
+
+/* ===============================================
+   Blizzard canvas blur for motion
+   =============================================== */
+
+.weather-overlay--blizzard .weather-overlay__canvas {
+    filter: blur(0.4px);
+}
+
+/* ===============================================
+   Hurricane canvas blur for chaos
+   =============================================== */
+
+.weather-overlay--hurricane .weather-overlay__canvas {
+    filter: blur(0.8px);
+}
+
+/* ===============================================
+   Performance optimizations
+   =============================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .weather-overlay__canvas,
+    .weather-overlay__fog,
+    .weather-overlay__dramatic,
+    .weather-overlay__blizzard-wind,
+    .weather-overlay__blizzard-whiteout,
+    .weather-overlay__storm-atmosphere,
+    .weather-overlay__lightning,
+    .weather-overlay__hurricane-swirl,
+    .weather-overlay__hurricane-darkness {
+        animation: none !important;
+    }
+}
+
+/* Reduce particle effects on mobile for performance */
+@media (max-width: 640px) {
+    .weather-overlay__canvas {
+        opacity: 0.7;
+    }
+}

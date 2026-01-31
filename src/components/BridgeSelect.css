@@ -44,6 +44,45 @@
     font-weight: 500;
 }
 
+/* Weather Widget Positioning */
+.bridge-select__weather {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    z-index: 10;
+}
+
+.bridge-select__header {
+    position: relative;
+}
+
+/* Weather Saying - Shows Maritimer expressions during bad weather */
+.bridge-select__weather-saying {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-full);
+    color: var(--status-bad);
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-style: italic;
+    display: inline-block;
+    animation: fadeIn 0.5s ease 0.3s backwards, pulseGently 3s ease-in-out infinite;
+}
+
+@keyframes pulseGently {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
 /* Bridge Cards Container */
 .bridge-select__cards {
     flex: 1;
