@@ -35,6 +35,13 @@ export function BridgeSelect({ trafficData, onSelectBridge }: BridgeSelectProps)
     const macdonaldStatus = getBridgeStatus('macdonald', trafficData);
     const mackayStatus = getBridgeStatus('mackay', trafficData);
 
+    // Get display text based on status
+    const getStatusText = (status: { isFucked: boolean; worstLevel: string }) => {
+        if (status.isFucked) return 'Yes';
+        if (status.worstLevel === 'moderate') return 'Almost';
+        return 'No';
+    };
+
     return (
         <div className="bridge-select">
             {/* Header */}
@@ -61,7 +68,7 @@ export function BridgeSelect({ trafficData, onSelectBridge }: BridgeSelectProps)
                         <span className="bridge-card__full-name">Angus L. Macdonald Bridge</span>
                         <div className={`bridge-card__indicator bridge-card__indicator--${macdonaldStatus.worstLevel}`}>
                             <span className="bridge-card__status">
-                                {macdonaldStatus.isFucked ? 'Yes' : 'No'}
+                                {getStatusText(macdonaldStatus)}
                             </span>
                         </div>
                     </div>
@@ -79,7 +86,7 @@ export function BridgeSelect({ trafficData, onSelectBridge }: BridgeSelectProps)
                         <span className="bridge-card__full-name">A. Murray MacKay Bridge</span>
                         <div className={`bridge-card__indicator bridge-card__indicator--${mackayStatus.worstLevel}`}>
                             <span className="bridge-card__status">
-                                {mackayStatus.isFucked ? 'Yes' : 'No'}
+                                {getStatusText(mackayStatus)}
                             </span>
                         </div>
                     </div>

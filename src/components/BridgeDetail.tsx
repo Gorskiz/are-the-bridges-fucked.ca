@@ -88,6 +88,20 @@ export function BridgeDetail({ bridge, trafficData, onBack }: BridgeDetailProps)
     const displayName = getBridgeDisplayName(bridge);
     const status = isBridgeFucked(bridgeData);
 
+    // Determine display text based on status
+    const getAnswerText = () => {
+        if (status.isFucked) return 'YES';
+        if (status.severity === 'moderate') return 'ALMOST';
+        return 'NO';
+    };
+
+    // Determine answer class variant
+    const getAnswerVariant = () => {
+        if (status.isFucked) return 'yes';
+        if (status.severity === 'moderate') return 'almost';
+        return 'no';
+    };
+
     return (
         <div className="bridge-detail">
             {/* Back Button */}
@@ -96,14 +110,14 @@ export function BridgeDetail({ bridge, trafficData, onBack }: BridgeDetailProps)
                 <span>Back</span>
             </button>
 
-            {/* Hero Section with Big YES/NO */}
+            {/* Hero Section with Big YES/NO/ALMOST */}
             <section className={`bridge-detail__hero bridge-detail__hero--${status.severity}`}>
                 <h1 className="bridge-detail__bridge-name">{displayName.short}</h1>
                 <p className="bridge-detail__bridge-full">{displayName.full}</p>
 
-                <div className={`bridge-detail__answer bridge-detail__answer--${status.isFucked ? 'yes' : 'no'}`}>
+                <div className={`bridge-detail__answer bridge-detail__answer--${getAnswerVariant()}`}>
                     <span className="bridge-detail__answer-text">
-                        {status.isFucked ? 'YES' : 'NO'}
+                        {getAnswerText()}
                     </span>
                 </div>
 

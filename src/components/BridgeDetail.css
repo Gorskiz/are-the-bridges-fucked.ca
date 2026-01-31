@@ -76,6 +76,13 @@
     --glow-color: var(--status-good-glow);
 }
 
+.bridge-detail__answer--almost {
+    background: linear-gradient(135deg, var(--status-moderate) 0%, #fbbf24 100%);
+    --glow-color: var(--status-moderate-glow);
+    width: 240px;
+    height: 240px;
+}
+
 .bridge-detail__answer--yes {
     background: linear-gradient(135deg, var(--status-bad) 0%, #f87171 100%);
     --glow-color: var(--status-bad-glow);
@@ -87,6 +94,12 @@
     color: white;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     letter-spacing: -0.02em;
+}
+
+/* Adjust font size for "ALMOST" to fit better */
+.bridge-detail__answer--almost .bridge-detail__answer-text {
+    font-size: 3rem;
+    letter-spacing: -0.04em;
 }
 
 .bridge-detail__reason {
@@ -311,8 +324,17 @@
         height: 240px;
     }
 
+    .bridge-detail__answer--almost {
+        width: 280px;
+        height: 280px;
+    }
+
     .bridge-detail__answer-text {
         font-size: 5rem;
+    }
+
+    .bridge-detail__answer--almost .bridge-detail__answer-text {
+        font-size: 3.75rem;
     }
 
     .bridge-detail__directions {
