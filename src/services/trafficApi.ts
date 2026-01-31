@@ -19,12 +19,6 @@ const CAMERA_URLS = {
     },
 };
 
-// CORS proxy options for fetching the HTML data
-const CORS_PROXIES = [
-    'https://api.allorigins.win/raw?url=',
-    'https://corsproxy.io/?',
-];
-
 /**
  * Parse traffic level from text content
  */
@@ -77,33 +71,6 @@ function parseTrafficHtml(html: string): TrafficData | null {
 
         // Find the traffic info grid
         const trafficGrid = doc.querySelector('.traffic-info-grid');
-        if (!trafficGrid) {
-            // Try to find traffic data in any paragraph tags
-            const allParagraphs = doc.querySelectorAll('p');
-            let macdonaldHalifax: TrafficLevel = 'unknown';
-            let macdonaldDartmouth: TrafficLevel = 'unknown';
-            let mackayHalifax: TrafficLevel = 'unknown';
-            let mackayDartmouth: TrafficLevel = 'unknown';
-
-            allParagraphs.forEach((p) => {
-                const text = p.textContent || '';
-                if (text.includes('Halifax Bound') || text.includes('Dartmouth Bound')) {
-                    if (text.includes('Macdonald') || (doc.body.innerHTML.indexOf('Macdonald') < doc.body.innerHTML.indexOf(text))) {
-                        if (text.includes('Halifax Bound')) {
-                            macdonaldHalifax = parseTrafficLevel(text);
-                        } else {
-                            macdonaldDartmouth = parseTrafficLevel(text);
-                        }
-                    } else {
-                        if (text.includes('Halifax Bound')) {
-                            mackayHalifax = parseTrafficLevel(text);
-                        } else {
-                            mackayDartmouth = parseTrafficLevel(text);
-                        }
-                    }
-                }
-            });
-        }
 
         // Parse the four traffic cards (Macdonald Dartmouth, Macdonald Halifax, MacKay Dartmouth, MacKay Halifax)
         const cards = trafficGrid?.querySelectorAll('.post-thumb-wrapper') || [];
@@ -197,47 +164,6 @@ export async function fetchTrafficData(): Promise<TrafficData | null> {
     }
 
     return null;
-}
-
-/**
- * Fallback/mock data for development or when API is unavailable
- */
-function getFallbackTrafficData(): TrafficData {
-    const macdonald: Bridge = {
-        name: 'Macdonald',
-        halifaxBound: {
-            direction: 'Halifax Bound',
-            level: 'light',
-            cameraUrl: CAMERA_URLS.macdonald.halifax,
-        },
-        dartmouthBound: {
-            direction: 'Dartmouth Bound',
-            level: 'light',
-            cameraUrl: CAMERA_URLS.macdonald.dartmouth,
-        },
-    };
-
-    const mackay: Bridge = {
-        name: 'MacKay',
-        halifaxBound: {
-            direction: 'Halifax Bound',
-            level: 'light',
-            cameraUrl: CAMERA_URLS.mackay.halifax,
-        },
-        dartmouthBound: {
-            direction: 'Dartmouth Bound',
-            level: 'light',
-            cameraUrl: CAMERA_URLS.mackay.dartmouth,
-        },
-    };
-
-    return {
-        macdonald,
-        mackay,
-        lastUpdated: new Date(),
-        isFucked: false,
-        fuckLevel: 'not',
-    };
 }
 
 /**

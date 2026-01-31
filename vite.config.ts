@@ -11,7 +11,7 @@ export default defineConfig({
         target: 'https://api.weather.gc.ca',
         changeOrigin: true,
         secure: false, // Allow self-signed or issues
-        rewrite: (path) => '/collections/citypageweather-realtime/items/ns-19?f=json',
+        rewrite: (_path) => '/collections/citypageweather-realtime/items/ns-19?f=json',
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
             console.log('proxy error', err);
@@ -29,7 +29,7 @@ export default defineConfig({
         target: 'https://halifaxharbourbridges.ca',
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => '/',
+        rewrite: (_path) => '/',
       },
     },
   },

@@ -8,6 +8,8 @@
  * And serves the React SPA for all other routes
  */
 
+import type { Fetcher } from '@cloudflare/workers-types';
+
 interface Env {
     ASSETS: Fetcher;
 }
