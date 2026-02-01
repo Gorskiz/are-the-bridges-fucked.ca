@@ -60,7 +60,7 @@ export function BridgeSelect({ trafficData, weatherData, onSelectBridge }: Bridg
                     <span className="bridge-select__title-accent">Fucked?</span>
                 </h1>
                 <p className="bridge-select__subtitle">
-                    Halifax Harbour Traffic Status
+                    Halifax Bridges Traffic Status
                 </p>
                 {/* Weather saying when conditions are rough */}
                 {weatherData && (weatherData.severity === 'rough' || weatherData.severity === 'fucked' || weatherData.severity === 'apocalyptic') && (
