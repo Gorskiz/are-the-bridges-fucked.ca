@@ -32,10 +32,12 @@
 }
 
 .bridge-select__title-accent {
-    background: linear-gradient(135deg, var(--bridge-green) 0%, var(--bridge-green-light) 100%);
+    background: linear-gradient(135deg, var(--bridge-green) 0%, #00c96d 50%, var(--bridge-green-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+    background-size: 200% 100%;
 }
 
 .bridge-select__subtitle {
@@ -381,6 +383,7 @@
         display: inline;
         background: linear-gradient(135deg, var(--bridge-green) 0%, #00c96d 50%, var(--bridge-green-light) 100%);
         -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         background-clip: text;
         animation: shimmer 3s ease-in-out infinite;
         background-size: 200% 100%;
