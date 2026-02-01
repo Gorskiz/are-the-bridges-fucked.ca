@@ -274,6 +274,13 @@
     }
 }
 
+/* Mobile-specific weather widget positioning */
+@media (max-width: 640px) {
+    .bridge-select__weather {
+        top: var(--space-sm);
+    }
+}
+
 /* =============================================
    TABLET STYLES (640px - 1024px)
    Side-by-side cards with enhanced visuals
