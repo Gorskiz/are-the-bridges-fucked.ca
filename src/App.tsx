@@ -5,7 +5,7 @@
  * Now with weather integration and Environment Canada alerts! ⛈️🌨️🚨
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTrafficData } from './hooks/useTrafficData';
 import { useWeatherData } from './hooks/useWeatherData';
 import { useWeatherAlerts } from './hooks/useWeatherAlerts';
@@ -27,6 +27,11 @@ function App() {
   const { activeAlerts, upcomingAlerts, mostSevereAlert } = useWeatherAlerts();
   const [view, setView] = useState<View>('select');
   const [selectedBridge, setSelectedBridge] = useState<SelectedBridge>(null);
+
+  // Smooth scroll to top when view changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [view]);
 
   const handleSelectBridge = (bridge: 'macdonald' | 'mackay') => {
     setSelectedBridge(bridge);
